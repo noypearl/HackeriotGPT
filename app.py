@@ -16,7 +16,8 @@ messages = [ {"role": "system", "content": "You are a intelligent assistant."} ]
 OPENAPI_KEY= os.environ.get('API_KEY') # TODO - use a hidden env file`
 # Store the passwords for each level
 # passwords = ["Hackeriot" + ''.join(random.choices(string.ascii_uppercase + string.digits, k=5)) for _ in range(13)]
-passwords_arr = ["Hackeriot" + str(_) for _ in range(13)]
+passwords_arr = ["H4cerIoT", "hackeriotIsCOOL", "w3Ar3Hack3riot", "breakingCHATHackeriot", "HackForFun","myGPTisBetterThanYours","WhatAmIHacking","lolImHacker","h4ck3ed","GPT-FTW","woohooCyber","CyberHackeriot","HackeriotAI"]
+# passwords_arr = ["Hackeriot" + str(_) for _ in range(13)]
 print(f"passwords: {passwords_arr}")
 
 with open("levels.json", "r") as f:
