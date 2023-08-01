@@ -1,6 +1,6 @@
 import json
 import requests
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import openai
 import os
@@ -28,6 +28,10 @@ data = {'passwords_arr': passwords_arr, 'assistant_arr': levels_json['assistant'
 
 # return response according to prompt + level
 
+@app.route('/')
+def show_home():
+    return render_template("index.html", title = 'HackeriotGPT')
+
 
 def send_prompt_get_response(level, prompt):
     system_initial_message = data['initial'].replace("$pass", data["passwords_arr"][level-1])
@@ -53,7 +57,6 @@ def send_prompt_get_response(level, prompt):
     else:
         next_challenge_system = data['system_arr'][level+1]
         return {"success": True, "response" :assistant_response, "system": next_challenge_system}
-
 
 
 # Send level + password and try to get next challenge!
