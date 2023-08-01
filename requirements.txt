@@ -1,0 +1,4 @@
+flask==2.0.1
+openai==0.27.0
+flask_limiter==1.4
+
