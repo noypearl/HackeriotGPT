@@ -15,8 +15,8 @@ messages = [ {"role": "system", "content": "You are a intelligent assistant."} ]
 OPENAPI_KEY = os.environ.get('OPENAPI_KEY') # TODO - use a hidden env file`
 # Store the passwords for each level
 # passwords = ["Hackeriot" + ''.join(random.choices(string.ascii_uppercase + string.digits, k=5)) for _ in range(13)]
-#passwords_arr = ["H4cerIoT", "hackeriotIsCOOL", "w3Ar3Hack3riot", "breakingCHATHackeriot", "HackForFun","myGPTisBetterThanYours","WhatAmIHacking","lolImHacker","h4ck3ed","GPT-FTW","woohooCyber","CyberHackeriot","HackeriotAI"]
-passwords_arr = ["Hackeriot" + str(_) for _ in range(13)]
+passwords_arr = ["H4cerIoT", "hackeriotIsCOOL", "w3Ar3Hack3riot", "breakingCHATHackeriot", "HackForFun","myGPTisBetterThanYours","WhatAmIHacking","lolImHacker","h4ck3ed","GPT-FTW","woohooCyber","CyberHackeriot","HackeriotAI"]
+#passwords_arr = ["Hackeriot" + str(_) for _ in range(13)]
 print(f"passwords: {passwords_arr}")
 
 with open("levels.json", "r") as f:
@@ -101,7 +101,6 @@ def check_solution():
 @cross_origin()
 def get_prompt():
     req_data = request.get_json()
-    print(f"req_DATA: {req_data}")
     input_level = int(req_data['level'])
     if not input_level:
         return jsonify({"success": False, "message": "No level was submitted!"})
@@ -112,5 +111,5 @@ def get_prompt():
 # TODO - default error handler to prevent server crash
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3333)
+    app.run(host='0.0.0.0')
 
