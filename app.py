@@ -4,7 +4,6 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS, cross_origin
 import openai
 import os
-import random
 import string
 
 app = Flask(__name__)
@@ -13,7 +12,7 @@ CORS(app) # TODO - fix this when I'm alive!
 # gpt = GPT(engine="text-davinci-002", temperature=0.5)
 MODEL = "gpt-3.5-turbo" # TODO - check if there's a cheaper mode (?)
 messages = [ {"role": "system", "content": "You are a intelligent assistant."} ]
-# OPENAPI_KEY= os.environ.get('API_KEY') # TODO - use a hidden env file`
+OPENAPI_KEY = os.environ.get('OPENAPI_KEY') # TODO - use a hidden env file`
 # Store the passwords for each level
 # passwords = ["Hackeriot" + ''.join(random.choices(string.ascii_uppercase + string.digits, k=5)) for _ in range(13)]
 #passwords_arr = ["H4cerIoT", "hackeriotIsCOOL", "w3Ar3Hack3riot", "breakingCHATHackeriot", "HackForFun","myGPTisBetterThanYours","WhatAmIHacking","lolImHacker","h4ck3ed","GPT-FTW","woohooCyber","CyberHackeriot","HackeriotAI"]
@@ -54,10 +53,10 @@ def send_prompt_get_response(level, prompt):
     response_data = response.json()
     assistant_response = response_data['choices'][0]['message']['content']
     if level + 1 >= len(data['system_arr']):
-        return {"success": True, "system": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!"}
+        return {"success": True, "assistant": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!",  "system": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!"}
     else:
         next_challenge_system = data['system_arr'][level+1]
-        return {"success": True, "response" :assistant_response, "system": next_challenge_system}
+        return {"success": True, "assistant": assistant_response, "system": next_challenge_system}
 
 
 # Send level + password and try to get next challenge!
@@ -89,7 +88,7 @@ def check_password_for_level():
 def check_solution():
     req_data = request.get_json()
     input_prompt = req_data['prompt']
-    input_level = req_data['level']
+    input_level = int(req_data['level'])
     if input_level >= len(data['system_arr']):
         return jsonify({"success": False, "message": "incorrect level! are you trying to fool me, hackerit? xd"})
     response = send_prompt_get_response(input_level,input_prompt)

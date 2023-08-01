@@ -171,9 +171,9 @@
         <input type="text" id="password" name="password"><br>
         <label for="assistant">Assistant</label><br><br><br>
         <textarea type="text" id="assistant" name="assistant" rows="4"></textarea><br>
-        <button type="button" id="password-submit">Password Submit</button>
         <button type="button" id="prompt-submit">Prompt Submit</button>
-        
+        <button type="button" id="password-submit">Password Submit</button>
+
     <p id="response"></p>
 
     <script>
@@ -236,12 +236,15 @@
 
         document.getElementById('prompt-submit').addEventListener('click', function(event) {
             event.preventDefault();
-            var prompt = document.getElementById('prompt')
+            var prompt = document.getElementById('prompt');
+            var promptVal = prompt.value;
             var assistant = document.getElementById('assistant')
             var promptVal = document.getElementById('prompt').value;
             var level = document.getElementById('levelslist').value;
+            var levelsList = document.getElementById('levelslist');
+            var levelVal = levelslist.options[levelsList.selectedIndex].value;
             var password = document.getElementById('password').value;
-            var system = document.getElementById('system').value;
+            var system = document.getElementById('system');
             if(promptVal.length == 0){
                 assistant.innerHTML = "No prompt was supplied!" // TODO - make field red
             }
@@ -252,11 +255,19 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({prompt: prompt, level: level})
+                body: JSON.stringify({prompt: promptVal, level: levelVal})
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                console.log(data);
+                if(data['success']){
+                    assistant.value = data['assistant']
+                    system.value = data['system']
+                }
+                else{
+                    assistant.value = "Generic error. Contact Hackeriot workshop organizers!"
+                }
+                
         })
 
             // handle response here    
