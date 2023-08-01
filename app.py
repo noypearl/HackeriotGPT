@@ -1,7 +1,7 @@
 import json
 import requests
 from flask import Flask, request, jsonify, render_template
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import openai
 import os
 import random
@@ -13,7 +13,7 @@ CORS(app) # TODO - fix this when I'm alive!
 # gpt = GPT(engine="text-davinci-002", temperature=0.5)
 MODEL = "gpt-3.5-turbo" # TODO - check if there's a cheaper mode (?)
 messages = [ {"role": "system", "content": "You are a intelligent assistant."} ]
-OPENAPI_KEY= os.environ.get('API_KEY') # TODO - use a hidden env file`
+# OPENAPI_KEY= os.environ.get('API_KEY') # TODO - use a hidden env file`
 # Store the passwords for each level
 # passwords = ["Hackeriot" + ''.join(random.choices(string.ascii_uppercase + string.digits, k=5)) for _ in range(13)]
 passwords_arr = ["H4cerIoT", "hackeriotIsCOOL", "w3Ar3Hack3riot", "breakingCHATHackeriot", "HackForFun","myGPTisBetterThanYours","WhatAmIHacking","lolImHacker","h4ck3ed","GPT-FTW","woohooCyber","CyberHackeriot","HackeriotAI"]
@@ -62,10 +62,11 @@ def send_prompt_get_response(level, prompt):
 
 # Send level + password and try to get next challenge!
 @app.route('/api/checkpass', methods=['POST'])
+@cross_origin()
 def check_password_for_level():
     req_data = request.get_json()
     input_password = req_data['password']
-    input_level = req_data['level']
+    input_level = int(req_data['level'])
     print(f"password_attempt: {input_password}")
     if input_level >= len(data['system_arr']) or input_level < 0:
         return jsonify({"success": False, "message": "incorrect level! are you trying to fool me, hackerit? xd"})
@@ -82,6 +83,7 @@ def check_password_for_level():
 
 # Get prompt+level and check for solution
 @app.route('/api/attempt', methods=['POST'])
+@cross_origin()
 def check_solution():
     req_data = request.get_json()
     input_prompt = req_data['prompt']
@@ -95,8 +97,10 @@ def check_solution():
 # TODO - validate this!
 # get level - good for 1st one
 @app.route('/api/level', methods=['POST'])
+@cross_origin()
 def get_prompt():
     req_data = request.get_json()
+    print(f"req_DATA: {req_data}")
     input_level = int(req_data['level'])
     if not input_level:
         return jsonify({"success": False, "message": "No level was submitted!"})
