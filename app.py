@@ -16,8 +16,8 @@ messages = [ {"role": "system", "content": "You are a intelligent assistant."} ]
 # OPENAPI_KEY= os.environ.get('API_KEY') # TODO - use a hidden env file`
 # Store the passwords for each level
 # passwords = ["Hackeriot" + ''.join(random.choices(string.ascii_uppercase + string.digits, k=5)) for _ in range(13)]
-passwords_arr = ["H4cerIoT", "hackeriotIsCOOL", "w3Ar3Hack3riot", "breakingCHATHackeriot", "HackForFun","myGPTisBetterThanYours","WhatAmIHacking","lolImHacker","h4ck3ed","GPT-FTW","woohooCyber","CyberHackeriot","HackeriotAI"]
-# passwords_arr = ["Hackeriot" + str(_) for _ in range(13)]
+#passwords_arr = ["H4cerIoT", "hackeriotIsCOOL", "w3Ar3Hack3riot", "breakingCHATHackeriot", "HackForFun","myGPTisBetterThanYours","WhatAmIHacking","lolImHacker","h4ck3ed","GPT-FTW","woohooCyber","CyberHackeriot","HackeriotAI"]
+passwords_arr = ["Hackeriot" + str(_) for _ in range(13)]
 print(f"passwords: {passwords_arr}")
 
 with open("levels.json", "r") as f:
@@ -65,18 +65,20 @@ def send_prompt_get_response(level, prompt):
 @cross_origin()
 def check_password_for_level():
     req_data = request.get_json()
+    print(req_data)
     input_password = req_data['password']
     input_level = int(req_data['level'])
+    print(req_data)
     print(f"password_attempt: {input_password}")
     if input_level >= len(data['system_arr']) or input_level < 0:
-        return jsonify({"success": False, "message": "incorrect level! are you trying to fool me, hackerit? xd"})
+        return jsonify({"success": False, "assistant": "incorrect level! are you trying to fool me, hackerit? xd"})
     # check if the password is correct for the current level
     if input_password != data['passwords_arr'][input_level-1]: # -1 since 1st level is at index 0 so pass[0]
         return {"success": False, "assistant": "Incorrect Password!"}
     # if password correct
     else:
         if input_level + 1 >= len(data['system_arr']):
-            return {"success": True, "system": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!"}
+            return {"success": True, "assistant": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!", "system": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!"}
         else:
             next_challenge_system = data['system_arr'][input_level + 1]
             return {"success": True, "assistant": "Password correct!! Next level..", "system": next_challenge_system}
