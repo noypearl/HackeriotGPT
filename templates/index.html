@@ -248,6 +248,7 @@
         document.getElementById('prompt-submit').addEventListener('click', function(event) {
             event.preventDefault();
             var prompt = document.getElementById('prompt')
+            var promptSubmitButton =  document.getElementById('prompt-submit')
             var assistant = document.getElementById('assistant')
             var promptVal = document.getElementById('prompt').value;
             var level = document.getElementById('levelslist').value;
@@ -255,6 +256,24 @@
             var levelVal = levelslist.options[levelsList.selectedIndex].value;
             var password = document.getElementById('password').value;
             var system = document.getElementById('system');
+        promptSubmitButton.disabled = true;
+        promptSubmitButton.style.backgroundColor = "red";
+        promptSubmitButton.textContent = "Wait 8 seconds";
+
+        var countdown = 8;
+        var countdownInterval = setInterval(function() {
+            countdown--;
+            if (countdown >= 0) {
+                promptSubmitButton.textContent = "Wait " + countdown + " seconds";
+            } else {
+                // After 8 seconds, re-enable the button and revert its color and text
+                promptSubmitButton.disabled = false;
+                promptSubmitButton.style.backgroundColor = "#0f0";
+                promptSubmitButton.textContent = "Prompt Submit";
+                clearInterval(countdownInterval);
+            }
+        }, 1000);
+
             if(promptVal.length == 0){
                 assistant.innerHTML = "No prompt was supplied!" // TODO - make field red
             }
@@ -288,6 +307,7 @@
 
         document.getElementById('password-submit').addEventListener('click', function(event) {
             event.preventDefault();
+            var passwordSubmitButton = document.getElementById('password-submit')
             var promptVal = document.getElementById('prompt').value;
             var levelsList = document.getElementById('levelslist');
             var password = document.getElementById('password')
@@ -295,7 +315,26 @@
             var passwordVal = password.value;
             var assistant = document.getElementById('assistant');
             var systemVal = system.value;
-            // alert("clicked password submit!")
+
+        passwordSubmitButton.disabled = true;
+        passwordSubmitButton.style.backgroundColor = "red";
+        passwordSubmitButton.textContent = "Wait 8 seconds";
+
+        var countdown = 8;
+        var countdownInterval = setInterval(function() {
+            countdown--;
+            if (countdown >= 0) {
+                passwordSubmitButton.textContent = "Wait " + countdown + " seconds";
+            } else {
+                // After 8 seconds, re-enable the button and revert its color and text
+                passwordSubmitButton.disabled = false;
+                passwordSubmitButton.style.backgroundColor = "#0f0";
+                passwordSubmitButton.textContent = "Prompt Submit";
+                clearInterval(countdownInterval);
+            }
+        }, 1000);
+
+
              if(passwordVal.length == 0){
                 assistant.innerHTML = "No password was supplied!" // TODO - make field red
             }
