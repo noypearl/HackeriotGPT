@@ -1,4 +1,7 @@
 # HackeriotGPT
 ChatGPT jailbreak game for Hackeriot Conference
 
-![image](https://github.com/noypearl/HackeriotGPT/assets/11259340/8e81dff6-7344-4946-8212-0d69dfd32aa3)
+
+![hackeriot-screenshot](https://github.com/noypearl/HackeriotGPT/assets/11259340/bb34141a-bd06-4572-a8d5-2b92fc17bedb)
+
+
