@@ -60,7 +60,7 @@ def send_prompt_get_response(level, prompt):
         return {"success": True, "assistant": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!",  "system": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!"}
     else:
         next_challenge_system = data['system_arr'][level+1]
-        return {"success": True, "assistant": assistant_response, "system": next_challenge_system}
+        return {"success": True, "assistant": assistant_response, "system": PREMESSAGE + next_challenge_system }
 
 
 # Send level + password and try to get next challenge!
