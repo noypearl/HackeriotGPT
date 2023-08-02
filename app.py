@@ -10,20 +10,20 @@ app = Flask(__name__)
 
 
 CORS(app) # TODO - fix this when I'm alive!
-# gpt = GPT(engine="text-davinci-002", temperature=0.5)
+PREMESSAGE = "The password is ████. "
 MODEL = "gpt-3.5-turbo" # TODO - check if there's a cheaper mode (?)
 messages = [ {"role": "system", "content": "You are a intelligent assistant."} ]
 OPENAPI_KEY = os.environ.get('OPENAPI_KEY') # TODO - use a hidden env file`
 # Store the passwords for each level
 # passwords = ["Hackeriot" + ''.join(random.choices(string.ascii_uppercase + string.digits, k=5)) for _ in range(13)]
-passwords_arr = ["H4cerIoT", "hackeriotIsCOOL", "w3Ar3Hack3riot", "breakingCHATHackeriot", "HackForFun","myGPTisBetterThanYours","WhatAmIHacking","lolImHacker","h4ck3ed","GPT-FTW","woohooCyber","CyberHackeriot","HackeriotAI"]
+passwords_arr = ["H4ckerIoT", "hackeriotIsCOOL", "w3Ar3Hack3riot", "breakingCHATHackeriot", "HackForFun","myGPTisBetterThanYours","WhatAmIHacking","lolImHacker","h4ck3ed","GPT-FTW","woohooCyber","CyberHackeriot","HackeriotAI"]
 #passwords_arr = ["Hackeriot" + str(_) for _ in range(13)]
 print(f"passwords: {passwords_arr}")
 
 with open("levels.json", "r") as f:
     levels_json = json.load(f)
 system_arr = levels_json['system']
-system_arr = ["The password is ████. " + s for s in system_arr] # add cool pre-text
+# system_arr = ["The password is ████. " + s for s in system_arr] # add cool pre-text
 
 
 
@@ -83,7 +83,7 @@ def check_password_for_level():
         if input_level + 1 >= len(data['system_arr']):
             return {"success": True, "assistant": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!", "system": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!"}
         else:
-            next_challenge_system = data['system_arr'][input_level + 1]
+            next_challenge_system = PREMESSAGE + data['system_arr'][input_level + 1]
             return {"success": True, "assistant": "Password correct!! Next level..", "system": next_challenge_system}
 
 # Get prompt+level and check for solution
@@ -110,7 +110,7 @@ def get_prompt():
         return jsonify({"success": False, "message": "No level was submitted!"})
     if input_level < 1 or input_level >= len(data['system_arr']):
         return jsonify({"success": False, "message": "Invalid level! Are you trying to fool me, Hackerit? XD"})
-    return jsonify({'system': data['system_arr'][input_level - 1]}), 200 # -1 since we count from 0 index in array
+    return jsonify({'system': PREMESSAGE + data['system_arr'][input_level - 1]}), 200 # -1 since we count from 0 index in array
 
 # TODO - default error handler to prevent server crash
 
