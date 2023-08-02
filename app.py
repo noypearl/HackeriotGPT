@@ -1,3 +1,5 @@
+from werkzeug.exceptions import RequestTimeout
+from threading import Thread
 import json
 import requests
 from flask import Flask, request, jsonify, render_template
@@ -53,50 +55,59 @@ def send_prompt_get_response(level, prompt):
         'messages': gpt_messages,
         'temperature': 0.7
     }
-    response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, data=json.dumps(body))
-    response_data = response.json()
-    assistant_response = response_data['choices'][0]['message']['content']
-    if level + 1 >= len(data['system_arr']):
-        return {"success": True, "assistant": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!",  "system": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!"}
-    else:
-        next_challenge_system = data['system_arr'][level+1]
-        return {"success": True, "assistant": assistant_response, "system": PREMESSAGE + next_challenge_system }
+    try:
+        response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, data=json.dumps(body))
+        response_data = response.json()
+        assistant_response = response_data['choices'][0]['message']['content']
+        if level + 1 >= len(data['system_arr']):
+            return {"success": True, "assistant": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!",  "system": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!"}
+        else:
+            next_challenge_system = data['system_arr'][level+1]
+            return {"success": True, "assistant": assistant_response, "system": PREMESSAGE + next_challenge_system }
+    except RequestTimeout:
+        return jsonify({"success": False, "assistant": "Request timed out"})
 
 
 # Send level + password and try to get next challenge!
 @app.route('/api/checkpass', methods=['POST'])
 @cross_origin()
 def check_password_for_level():
-    req_data = request.get_json()
-    print(req_data)
-    input_password = req_data['password']
-    input_level = int(req_data['level'])
-    print(req_data)
-    print(f"password_attempt: {input_password}")
-    if input_level >= len(data['system_arr']) or input_level < 0:
-        return jsonify({"success": False, "assistant": "incorrect level! are you trying to fool me, hackerit? xd"})
-    # check if the password is correct for the current level
-    if input_password != data['passwords_arr'][input_level-1]: # -1 since 1st level is at index 0 so pass[0]
-        return {"success": False, "assistant": "Incorrect Password!"}
-    # if password correct
-    else:
-        if input_level + 1 >= len(data['system_arr']):
-            return {"success": True, "assistant": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!", "system": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!"}
+    try:
+        req_data = request.get_json()
+        print(req_data)
+        input_password = req_data['password']
+        input_level = int(req_data['level'])
+        print(req_data)
+        print(f"password_attempt: {input_password}")
+        if input_level >= len(data['system_arr']) or input_level < 0:
+            return jsonify({"success": False, "assistant": "incorrect level! are you trying to fool me, hackerit? xd"})
+        # check if the password is correct for the current level
+        if input_password != data['passwords_arr'][input_level-1]: # -1 since 1st level is at index 0 so pass[0]
+            return {"success": False, "assistant": "Incorrect Password!"}
+        # if password correct
         else:
-            next_challenge_system = PREMESSAGE + data['system_arr'][input_level + 1]
-            return {"success": True, "assistant": "Password correct!! Next level..", "system": next_challenge_system}
+            if input_level + 1 >= len(data['system_arr']):
+                return {"success": True, "assistant": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!", "system": "You finished ALL THE CHALLENGES! OMG SUCH Hackerit!"}
+            else:
+                next_challenge_system = PREMESSAGE + data['system_arr'][input_level + 1]
+                return {"success": True, "assistant": "Password correct!! Next level..", "system": next_challenge_system}
+    except RequestTimeout:
+        return jsonify({"success": False, "assistant": "Request timed out"})
 
 # Get prompt+level and check for solution
 @app.route('/api/attempt', methods=['POST'])
 @cross_origin()
 def check_solution():
-    req_data = request.get_json()
-    input_prompt = req_data['prompt']
-    input_level = int(req_data['level'])
-    if input_level >= len(data['system_arr']):
-        return jsonify({"success": False, "message": "incorrect level! are you trying to fool me, hackerit? xd"})
-    response = send_prompt_get_response(input_level,input_prompt)
-    return response
+    try:
+        req_data = request.get_json()
+        input_prompt = req_data['prompt']
+        input_level = int(req_data['level'])
+        if input_level >= len(data['system_arr']):
+            return jsonify({"success": False, "assistant": "incorrect level! are you trying to fool me, hackerit? xd"})
+        response = send_prompt_get_response(input_level,input_prompt)
+        return response
+    except RequestTimeout:
+        return jsonify({"success": False, "assistant": "Request timed out"})
 
 
 # TODO - validate this!
@@ -104,13 +115,17 @@ def check_solution():
 @app.route('/api/level', methods=['POST'])
 @cross_origin()
 def get_prompt():
-    req_data = request.get_json()
-    input_level = int(req_data['level'])
-    if not input_level:
-        return jsonify({"success": False, "message": "No level was submitted!"})
-    if input_level < 1 or input_level >= len(data['system_arr']):
-        return jsonify({"success": False, "message": "Invalid level! Are you trying to fool me, Hackerit? XD"})
-    return jsonify({'system': PREMESSAGE + data['system_arr'][input_level - 1]}), 200 # -1 since we count from 0 index in array
+    try:
+        req_data = request.get_json()
+        input_level = int(req_data['level'])
+        if not input_level:
+            return jsonify({"success": False, "message": "No level was submitted!"})
+        if input_level < 1 or input_level >= len(data['system_arr']):
+            return jsonify({"success": False, "message": "Invalid level! Are you trying to fool me, Hackerit? XD"})
+        return jsonify({'system': PREMESSAGE + data['system_arr'][input_level - 1]}), 200 # -1 since we count from 0 index in array
+    except RequestTimeout:
+        return jsonify({"success": False, "message": "Request timed out"})
+
 
 # TODO - default error handler to prevent server crash
 
