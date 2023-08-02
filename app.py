@@ -22,10 +22,13 @@ print(f"passwords: {passwords_arr}")
 
 with open("levels.json", "r") as f:
     levels_json = json.load(f)
-system = levels_json['system']
+system_arr = levels_json['system']
+system_arr = ["The password is ████. " + s for s in system_arr] # add cool pre-text
+
+
 
 # notice levels are starting from 1 in GUI + REST API!
-data = {'passwords_arr': passwords_arr, 'assistant_arr': levels_json['assistant'], 'system_arr': levels_json['system'], 'initial': levels_json['initial']}
+data = {'passwords_arr': passwords_arr, 'assistant_arr': levels_json['assistant'], 'system_arr': system_arr, 'initial': levels_json['initial']}
 
 # return response according to prompt + level
 
