@@ -8,6 +8,7 @@ import string
 
 app = Flask(__name__)
 
+
 CORS(app) # TODO - fix this when I'm alive!
 # gpt = GPT(engine="text-davinci-002", temperature=0.5)
 MODEL = "gpt-3.5-turbo" # TODO - check if there's a cheaper mode (?)
@@ -109,6 +110,7 @@ def get_prompt():
     return jsonify({'system': data['system_arr'][input_level - 1]}), 200 # -1 since we count from 0 index in array
 
 # TODO - default error handler to prevent server crash
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

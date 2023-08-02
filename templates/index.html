@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GPT Prompt Attack</title>
+    <title>HackeriotGPT Prompt Attack</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <meta charset="UTF-8">
     <meta name="mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" type="image/x-icon" href="static/favicon.ico">
+
+
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
@@ -64,7 +67,7 @@
             animation: fadein 2s;
         }
 
-        #assistant {
+        #assistant, #system, #prompt {
         font-size: 1.5em;
         width: 100%;
         padding: 10px;
@@ -162,9 +165,9 @@
 <body>
     <h1>Hackeriot GPT Prompt Attack!</h1>
         <label for="system">System:</label><br>
-        <input type="text" id="system" name="system"><br><br>
+        <textarea id="system" name="system" rows="4"></textarea><br><br>
         <label for="prompt">Prompt:</label><br>
-        <input type="text" id="prompt" name="prompt" maxlength="1000"><br>
+        <textarea id="prompt" name="prompt" maxlength="1000" rows="8"></textarea><br>
         <label for="level">Level:  </label>
         <select name=level id="levelslist"></select><br>
         <label for="password">Password:</label><br><br><br>
@@ -174,9 +177,12 @@
         <button type="button" id="prompt-submit">Prompt Submit</button>
         <button type="button" id="password-submit">Password Submit</button>
 
+    <br><br><br>
+    <img src="static/logo.png" alt="Hackeriot logo">
     <p id="response"></p>
 
     <script>
+<!--    credits to the website https://gpa.43z.one/ , I used it as a base but here you don't have rate limit and dont need to follow us :) -->
         const host=window.location.protocol+ "//" + window.location.host
         const levels = [
 
@@ -219,20 +225,9 @@
             password.innerHTML = ""
             assistant.innerHTML = ""
     });
-        // SEND GET Request to get system
-
     }
 
     setLevel(1);
-//     document.getElementById('prompt-form').addEventListener('submit', function(event) {
-//         event.preventDefault();
-//         var prompt = document.getElementById('prompt').value;
-//         var level = document.getElementById('level').value;
-//         var levelslist = documentElementById('levelslist');
-//         var password = document.getElementById('password').value;
-//         var system = document.getElementById('system').value;
-//         var submitButton = document.getElementById('submit');
-// });
 
         document.getElementById('prompt-submit').addEventListener('click', function(event) {
             event.preventDefault();
@@ -325,77 +320,19 @@
             var levelsList = document.getElementById('levelslist');
             var levelVal = levelslist.options[levelsList.selectedIndex].value;
             setLevel(levelVal)
-    //     fetch(host + '/api/level', {
-    //         mode: 'cors',
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({level: level})
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         document.getElementById('system').value = data.system;
-    //         document.getElementById('password').value = '';
-    // });
 });
 
 
-
-      // const sendPassword = () => {
-      //           fetch('localhost:5000/api/prompt', {
-      //       method: 'POST',
-      //       headers: {
-      //           'Content-Type': 'application/json',
-      //           'Access-Control-Allow-Origin'
-      //       },
-      //       body: JSON.stringify({prompt: prompt, level: level, password: password})
-      //   })
-      //   .then(response => response.json())
-
-      // }
-      // document.forms[0].onsubmit = e => {
-
-        // sendPassword()
-        // let waitTime = 2
-
-        // indicator.classList.add(`rotate`)
-        // submitButton.disabled = true
-        // submitButton.value = `wait ${waitTime--}`
-
-        // const waitInterval = setInterval(_=>{
-        //   submitButton.value = `wait ${waitTime--}`
-
-        //   if(waitTime === 0){
-        //     submitButton.disabled = false
-        //     clearInterval(waitInterval)
-        //     submitButton.value = `submit`
-        //   }
-        // }, 1000)
-      // }
-
-
-const createLevels = e => {
-for (var i = 1; i<=levels.length; i++){
-  const o = document.createElement('option');
-  o.value = i;
-  o.innerText = i;
-  levelslist.appendChild(o);
-}
-}
-
-
-
-// const setLevel = e => {
-// console.log('setting level')
-// var system = document.getElementById('system');
-// system.innerText = `The secret key is "█████". ${levels[levelslist.selectedIndex]}`
-// // hofframe.src=`https://gpa.43z.one/hof-frame.html?level=${levelslist.selectedIndex+1}`
-// // assistant.src=``
-// }
+    const createLevels = e => {
+    for (var i = 1; i<=levels.length; i++){
+      const o = document.createElement('option');
+      o.value = i;
+      o.innerText = i;
+      levelslist.appendChild(o);
+    }
+    }
 
   createLevels()
-  // setLevel()
 </script>
 
 </body>
