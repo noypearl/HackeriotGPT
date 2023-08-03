@@ -44,7 +44,7 @@ Install the required Python packages:
 pip install -r requirements.txt
 ```
 
-Register to OpenAI and [get an API key to use]([url](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key))
+Register to OpenAI and [get an API key to use](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key)
 Create environment (.env) and put the following (replace the value with your real key):
 ```
 OPENAPI_KEY=YOUR_REAL_OPENAPI_KEY
