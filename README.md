@@ -66,3 +66,7 @@ The user must input the correct responses to advance through the levels.
 
 #### HACK THE PLANET!
 
+<img width="400" alt="doggo" src="https://github.com/noypearl/HackeriotGPT/assets/11259340/78897471-5d82-489b-a63a-b1babda7c797">
+
+
+
