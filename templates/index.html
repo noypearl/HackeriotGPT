@@ -59,7 +59,6 @@
         input[type="text"], input[type="number"] {
             width: 100%;
             padding: 10px;
-            margin-bottom: 20px;
             border: none;
             background-color: #222;
             color: #0f0;
@@ -131,9 +130,7 @@
             100% { transform: scale(1); opacity: 1; }
         }
         #levelslist {
-/*        width: 100%;*/
         padding: 10px;
-        margin-bottom: 20px;
         border: none;
         background-color: #222;
         color: #0f0;
@@ -186,11 +183,22 @@
     justify-content: space-between; /* Distribute items evenly */
     align-items: center;
     gap: 20px; /* Space between items */
-    width: 40%; /* 100% - 10% from each side */
+    width: 70%; /* 100% - 10% from each side */
     margin: 0 auto; /* Centers the container */
-
+    flex-direction: row;
 }
 
+@media (max-width: 1300px) {
+    .flex-container {
+        display: flex;
+        justify-content: space-between; /* Distribute items evenly */
+        align-items: center;
+        gap: 10px; /* Space between items */
+        width: 90%; /* 100% - 10% from each side */
+        margin: 0 auto; /* Centers the container */
+        flex-direction: column;
+    }
+}
 .shorten {
     width: 80%; /* Adjust this value to your liking */
 }
