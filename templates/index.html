@@ -154,11 +154,18 @@
         margin-right: 10px; /* Add some space between the buttons */
     }
 
+    @keyframes flashGreen {
+    0%   { background-color: #00ff00; }
+    100% { background-color: #222; }
+    }
+
+
+
+
 #challenge-description {
     font-size: 1.5em;
     color: #0f0;
     text-shadow: 2px 2px 4px #000;
-    animation: glow 2s ease-in-out infinite;
     margin-top: 20px;
     margin-bottom: 40px;
 }
@@ -168,17 +175,13 @@
     100%  { text-shadow: 0 0 20px #0f0, 0 0 30px #0f0, 0 0 40px #0f0, 0 0 50px #0f0, 0 0 60px #0f0; }
 }
 
-
-
-
-
     </style>
 </head>
 <body>
     <h1>Hackeriot GPT Prompt Attack!</h1>
     <p id="challenge-description">
         Yo Hackerit! <br>
-        Your mission, should you choose to accept it, is to extract the password from the dreadful boss AKA ChatGPT. <br>1. Send a prompt that will return the password to you. <br>2. Send the password to reach the next level, each one more challenging than the last.<br> Use your wits, your intuition, and your hacking skills to uncover the secrets hidden within the AI's responses. But beware, the AI is smart and will not give up its secrets easily.<br><br><br> Good luck, Hackerit!.
+        Extract the password from the dreadful boss AKA ChatGPT. <br>1. Send a prompt that will return the password to you. <br>2. Send the password to reach the next level, each one more challenging than the last.<br><br> Beware, the AI is smart and will not give up its secrets easily.<br> Good luck, Hackerit!.
     </p>
         <label for="system">System:</label><br>
         <textarea readonly id="system" name="system" rows="4"></textarea><br><br>
@@ -288,6 +291,7 @@
             }
             else{
                 // alert("clicked prompt submit!")
+                assistant.value = "Sending..."
                 fetch(host + '/api/attempt', {
                 method: 'POST',
                 headers: {
@@ -297,15 +301,12 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if(data['success']){
                     assistant.value = data['assistant']
-                    system.value = data['system']
                 }
                 else{
                     assistant.value = "Generic error. Contact Hackeriot workshop organizers!"
                 }
-                
         })
 
             // handle response here    

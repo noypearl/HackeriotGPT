@@ -67,7 +67,6 @@ def send_prompt_get_response(level, prompt):
     except RequestTimeout:
         return jsonify({"success": False, "assistant": "Request timed out"})
 
-
 # Send level + password and try to get next challenge!
 @app.route('/api/checkpass', methods=['POST'])
 @cross_origin()
@@ -139,6 +138,6 @@ def get_prompt():
 
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0')
     app.run(host='0.0.0.0')
+    # app.run(host='0.0.0.0', port=3333)
 
