@@ -247,11 +247,8 @@
         .then(response => response.json())
         .then(data => {
             system.value = data.system;
-            // alert(data.system)
-            password.innerHTML = "";
-            prompt.innerHTML = ""
-            password.innerHTML = ""
-            assistant.innerHTML = ""
+            password.value = ""
+            assistant.value = ""
     });
     }
 
