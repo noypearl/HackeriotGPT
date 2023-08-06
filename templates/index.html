@@ -36,6 +36,43 @@
             animation: glow 2s ease-in-out infinite;
         }
 
+        #challenge-description {
+            font-size: 1.5em;
+            color: #0f0;
+            text-shadow: 2px 2px 4px #000;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        #password-submit #prompt-submit {
+        font-size: 1.5em;
+        background-color: #0f0;
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        animation: pulse 2s infinite;
+        margin-right: 10px; /* Add some space between the buttons */
+    }
+        @media (max-width:800px){
+        h1 {
+            font-size: 2em;
+            color: #0f0;
+            text-shadow: 2px 2px 4px #000;
+            animation: glow 2s ease-in-out infinite;
+        }
+        #challenge-description {
+            font-size: 1em;
+        }
+        #password-submit, #prompt-submit {
+            font-size: 1.5em;
+            margin-left: 1em;
+            margin-right: 1em;
+            margin-bottom: 1em;
+            margin-top: 0.2em;
+        }
+        }
         @keyframes glow {
             0%    { text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0, 0 0 40px #0f0; }
             100%  { text-shadow: 0 0 20px #0f0, 0 0 30px #0f0, 0 0 40px #0f0, 0 0 50px #0f0, 0 0 60px #0f0; }
@@ -67,7 +104,7 @@
         }
 
         #assistant, #system, #prompt {
-        font-size: 1.5em;
+        font-size: 1.8em;
         width: 100%;
         padding: 10px;
         margin-bottom: 20px;
@@ -78,9 +115,6 @@
         animation: fadein 2s;
 }
 
-#prompt-submit:invalid, #password-submit:invalid {
-    background-color: #FFCCCC; /* Light red */
-}
 
         @keyframes fadein {
             0%   { opacity: 0; }
@@ -97,7 +131,7 @@
             background-color: #0f0;
             color: #000;
             border: none;
-            padding: 10px 20px;
+            padding: 20px 40px;
             cursor: pointer;
             transition: background-color 0.3s ease;
             margin-left: 1em;
@@ -143,33 +177,12 @@
         display: inline-block;
         vertical-align: middle;
     }
-        #password-submit #prompt-submit {
-        font-size: 1.5em;
-        background-color: #0f0;
-        color: #000;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        animation: pulse 2s infinite;
-        margin-right: 10px; /* Add some space between the buttons */
-    }
 
     @keyframes flashGreen {
     0%   { background-color: #00ff00; }
     100% { background-color: #222; }
     }
 
-
-
-
-#challenge-description {
-    font-size: 1.5em;
-    color: #0f0;
-    text-shadow: 2px 2px 4px #000;
-    margin-top: 20px;
-    margin-bottom: 40px;
-}
 
 @keyframes glow {
     0%    { text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0, 0 0 40px #0f0; }
@@ -199,6 +212,7 @@
         flex-direction: column;
     }
 }
+
 .shorten {
     width: 80%; /* Adjust this value to your liking */
 }
