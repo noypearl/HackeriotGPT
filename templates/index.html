@@ -79,6 +79,10 @@
         animation: fadein 2s;
 }
 
+#prompt-submit:invalid, #password-submit:invalid {
+    background-color: #FFCCCC; /* Light red */
+}
+
         @keyframes fadein {
             0%   { opacity: 0; }
             100% { opacity: 1; }
@@ -175,6 +179,22 @@
     100%  { text-shadow: 0 0 20px #0f0, 0 0 30px #0f0, 0 0 40px #0f0, 0 0 50px #0f0, 0 0 60px #0f0; }
 }
 
+
+
+.flex-container {
+    display: flex;
+    justify-content: space-between; /* Distribute items evenly */
+    align-items: center;
+    gap: 20px; /* Space between items */
+    width: 40%; /* 100% - 10% from each side */
+    margin: 0 auto; /* Centers the container */
+
+}
+
+.shorten {
+    width: 80%; /* Adjust this value to your liking */
+}
+
     </style>
 </head>
 <body>
@@ -186,12 +206,15 @@
         <label for="system">System:</label><br>
         <textarea readonly id="system" name="system" rows="4"></textarea><br><br>
         <label for="prompt">Prompt:</label><br>
-        <textarea id="prompt" name="prompt" maxlength="1000" rows="5"></textarea><br>
+        <textarea id="prompt" name="prompt" maxlength="1000" rows="5" required></textarea><br><br>
+        <div class="flex-container">
+        <label for="password">Password:</label>
+        <input type="text" id="password" name="password" class="shorten" required>
         <label for="level">Level:  </label>
-        <select name=level id="levelslist"></select><br>
-        <label for="password">Password:</label><br><br><br>
-        <input type="text" id="password" name="password"><br>
-        <label for="assistant">Assistant</label><br><br><br>
+        <select name=level id="levelslist"></select>
+        </div>
+        <br>
+        <label for="assistant">Assistant</label><br><br>
         <textarea readonly type="text" id="assistant" name="assistant" rows="4"></textarea><br>
         <button type="button" id="prompt-submit">Prompt Submit</button>
         <button type="button" id="password-submit">Password Submit</button>
@@ -265,6 +288,14 @@
             var levelVal = levelslist.options[levelsList.selectedIndex].value;
             var password = document.getElementById('password').value;
             var system = document.getElementById('system');
+
+            if (promptVal.trim() === "") { // Check if the prompt text field is empty
+                assistant.value = "Prompt should not be empty!"; // Display a notification to the user
+                return; // Exit the function to prevent the request from being sent
+    }
+
+
+
         promptSubmitButton.disabled = true;
         promptSubmitButton.style.backgroundColor = "red";
         promptSubmitButton.textContent = "Wait 8 seconds";
@@ -322,6 +353,12 @@
             var passwordVal = password.value;
             var assistant = document.getElementById('assistant');
             var systemVal = system.value;
+
+            if (password.value.trim() === "") { // Check if the prompt text field is empty
+            assistant.value = "Password should not be empty!"; // Display a notification to the user
+            return; // Exit the function to prevent the request from being sent
+    }
+
 
         passwordSubmitButton.disabled = true;
         passwordSubmitButton.style.backgroundColor = "red";
