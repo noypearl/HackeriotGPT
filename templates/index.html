@@ -22,6 +22,53 @@
             width: 70%;
             margin: 0 auto;
         }
+        /*for cool cyber effects!! #HACKERIOT!*/
+        #password-submit, #prompt-submit {
+            font-size: 1.5em;
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 1em;
+            margin-right: 1em;
+        }
+        #levelslist {
+        padding: 10px;
+        border: none;
+        background-color: #222;
+        color: #0f0;
+        border-radius: 5px;
+        animation: fadein 2s;
+        font-size: 1.5em;
+/*        line-height: 2em;*/
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #222;
+            color: #0f0;
+            border-radius: 5px;
+            animation: fadein 2s;
+        }
+        label, input{
+            font-size: 1.5em;
+            line-height: 1.5em;
+        }
+
+        #assistant, #system, #prompt {
+        font-size: 1.7em;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: none;
+        background-color: #222;
+        color: #0f0;
+        border-radius: 5px;
+        animation: fadein 2s;
+}
 
         @keyframes colorchange {
             0%   { color: #0f0; }
@@ -30,13 +77,16 @@
         }
 
         h1 {
-            font-size: 4em;
+            font-size: 3.5em;
             color: #0f0;
             text-shadow: 2px 2px 4px #000;
             animation: glow 2s ease-in-out infinite;
         }
 
         #challenge-description {
+            transition: opacity 0.5s, max-height 0.5s; /* 0.5s is the duration of the transition, you can adjust it */
+<!--            max-height: 200px; /* This should be more than the actual height of the content */-->
+            overflow: hidden; /* This ensures content that exceeds max-height isn't shown */
             font-size: 1.5em;
             color: #0f0;
             text-shadow: 2px 2px 4px #000;
@@ -56,6 +106,25 @@
         margin-right: 10px; /* Add some space between the buttons */
     }
         @media (max-width:800px){
+        #password-submit, #prompt-submit {
+            font-size: 1em;
+            margin-left: 1em;
+            margin-right: 1em;
+            margin-bottom: 1em;
+            margin-top: 0.2em;
+        }
+        input[type="text"], input[type="number"] {
+            font-size: 1.3em;
+        }
+        #assistant, #system, #prompt {
+            font-size: 1.3em;
+        }
+        label, select, option {
+            font-size: 1em;
+        }
+        #challenge-description{
+            display: none;
+        }
         h1 {
             font-size: 2em;
             color: #0f0;
@@ -64,13 +133,6 @@
         }
         #challenge-description {
             font-size: 1em;
-        }
-        #password-submit, #prompt-submit {
-            font-size: 1.5em;
-            margin-left: 1em;
-            margin-right: 1em;
-            margin-bottom: 1em;
-            margin-top: 0.2em;
         }
         }
         @keyframes glow {
@@ -88,32 +150,7 @@
             100% { transform: translateY(0); opacity: 1; }
         }
 
-        label, input {
-            font-size: 1.5em;
-            line-height: 1.5em;
-        }
 
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background-color: #222;
-            color: #0f0;
-            border-radius: 5px;
-            animation: fadein 2s;
-        }
-
-        #assistant, #system, #prompt {
-        font-size: 1.8em;
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        border: none;
-        background-color: #222;
-        color: #0f0;
-        border-radius: 5px;
-        animation: fadein 2s;
-}
 
 
         @keyframes fadein {
@@ -125,18 +162,6 @@
         }
 
 
-        /*for cool cyber effects!! #HACKERIOT!*/
-        #password-submit, #prompt-submit {
-            font-size: 1.5em;
-            background-color: #0f0;
-            color: #000;
-            border: none;
-            padding: 20px 40px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-left: 1em;
-            margin-right: 1em;
-        }
 
         #password-submit:hover, #prompt-submit:hover {
             animation: pulse 2s infinite;
@@ -162,16 +187,6 @@
         @keyframes pop {
             0%   { transform: scale(0); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
-        }
-        #levelslist {
-        padding: 10px;
-        border: none;
-        background-color: #222;
-        color: #0f0;
-        border-radius: 5px;
-        animation: fadein 2s;
-        font-size: 1.5em;
-/*        line-height: 2em;*/
         }
         label[for="level"], #levelslist {
         display: inline-block;
@@ -295,6 +310,17 @@
             password.value = ""
             assistant.value = ""
     });
+            // Check if the level is 1 to display guidelines
+        var challengeDescription = document.getElementById('challenge-description');
+        if(parseInt(level) == 1) {
+            challengeDescription.style.opacity = '1';
+            challengeDescription.style.maxHeight = '200px'; // This should be more than the actual height of the content
+        } else {
+            challengeDescription.style.opacity = '0';
+            challengeDescription.style.maxHeight = '0';
+        }
+
+
     }
 
     setLevel(1);
